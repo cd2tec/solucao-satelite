@@ -1,30 +1,17 @@
-import math
+"""
+satelite.py — Gerador de relatório de parâmetros orbitais.
+
+Uso:
+    python satelite.py
+"""
+
 import json
 from datetime import datetime, timezone
-
-EARTH_RADIUS_KM = 6_371.0
-MU = 398_600.4418
-
-
-def orbital_period(altitude_km: float) -> float:
-    r = EARTH_RADIUS_KM + altitude_km
-    return 2 * math.pi * math.sqrt(r**3 / MU) / 60
-
-
-def orbital_velocity(altitude_km: float) -> float:
-    r = EARTH_RADIUS_KM + altitude_km
-    return math.sqrt(MU / r) * 3.6
-
-
-def classify_orbit(altitude_km: float) -> str:
-    if altitude_km < 2_000:
-        return "LEO"
-    if altitude_km < 35_786:
-        return "MEO"
-    return "GEO"
+from orbit import classify_orbit, orbital_period, orbital_velocity
 
 
 def satellite_report(name: str, norad_id: str, altitude_km: float) -> dict:
+    """Gera um dicionário com os parâmetros orbitais calculados para um satélite."""
     return {
         "name": name,
         "norad_id": norad_id,
