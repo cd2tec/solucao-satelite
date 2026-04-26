@@ -2,6 +2,38 @@ package src;
 
 public class Sort {
 
+    public static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                int tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+            }
+        }
+        int tmp = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = tmp;
+        return i + 1;
+    }
+
+    public static int binarySearch(int[] arr, int target) {
+        int lo = 0, hi = arr.length - 1;
+        while (lo <= hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (arr[mid] == target) return mid;
+            if (arr[mid] < target) lo = mid + 1;
+            else hi = mid - 1;
+        }
+        return -1;
+    }
+
     public static void bubbleSort(int[] arr) {
         int n = arr.length;
         for (int i = 0; i < n - 1; i++) {
