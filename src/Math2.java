@@ -15,9 +15,15 @@ public class Math2 {
         return a / gcd(a, b) * b;
     }
 
-    public static int power(int base, int exp) {
-        int result = 1;
-        for (int i = 0; i < exp; i++) result *= base;
+    public static long power(int base, int exp) {
+        long result = 1;
+        long b = base;
+        int e = exp;
+        while (e > 0) {
+            if ((e & 1) == 1) result *= b;
+            b *= b;
+            e >>= 1;
+        }
         return result;
     }
 
@@ -52,8 +58,33 @@ public class Math2 {
         return true;
     }
 
-    public static int factorial(int n) {
-        if (n <= 1) return 1;
-        return n * factorial(n - 1);
+    public static long factorial(int n) {
+        long result = 1;
+        for (int i = 2; i <= n; i++) result *= i;
+        return result;
+    }
+
+    public static int[] primesSieve(int limit) {
+        boolean[] sieve = new boolean[limit + 1];
+        java.util.Arrays.fill(sieve, true);
+        sieve[0] = sieve[1] = false;
+        for (int i = 2; i * i <= limit; i++) {
+            if (sieve[i]) {
+                for (int j = i * i; j <= limit; j += i) sieve[j] = false;
+            }
+        }
+        int count = 0;
+        for (boolean b : sieve) if (b) count++;
+        int[] primes = new int[count];
+        int idx = 0;
+        for (int i = 0; i <= limit; i++) if (sieve[i]) primes[idx++] = i;
+        return primes;
+    }
+
+    public static int digitSum(int n) {
+        n = Math.abs(n);
+        int sum = 0;
+        while (n > 0) { sum += n % 10; n /= 10; }
+        return sum;
     }
 }
